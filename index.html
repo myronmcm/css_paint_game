@@ -1,0 +1,29 @@
+<div class="app">
+
+   <div class="container">
+     <button onclick="prevLevel();">prev</button>  <button onclick="nextLevel();">next</button>
+  </div>
+  
+  <div class="container paints">
+    <h1>Target Color:</h1>
+    <div id="colorBox" class="box"> </div>
+  </div>
+
+  <div class="container paints">
+    <h1>Your Paint:</h1>
+    <div id="paletteBox" class="box"> </div>
+  </div>
+
+  <div class="container ">
+    <p id="message" class="default">Mix up some paint</p>
+  </div>
+
+  <div class="container codeWindow">
+    <p class="element">#building<span class="curly"> {</span></p>
+    <p class="indented">
+      background-color:<input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" id="code" placeholder="gray" />;
+    </p>
+    <p class="curly">}</p>
+    <button onclick="checkGame();">Paint!</button>
+
+  </div>
