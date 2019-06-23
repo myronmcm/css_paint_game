@@ -1,20 +1,9 @@
-# Don't track content of these folders
-.git/
-.vscode/
-node_modules/
-someOtherfoler/
-
-
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-
-*.so
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Packages #
 ############
@@ -28,3 +17,14 @@ someOtherfoler/
 *.rar
 *.tar
 *.zip
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Mac files
+.DS_Store
+
+# VSCode settings
+.vscode/
+.vscode/settings.json
