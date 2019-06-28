@@ -1,14 +1,16 @@
 // Todo: Tie thresholds to a difficulty system
 // Todo: Move hardcoded strings to variables.
-// Move QuerySelectors to variables
-//Reset colors on level change
-//Todo: Better way to manage game state
 
-let currentLevel = 0; //Sorry, I don't know an ES6 singletony pattern yet
+const game = {
+  currentLevel: parseInt(localStorage.currentLevel, 10) || 0
+};
+
 const maxLevel = levels.length;
 
 const swatch = document.querySelector("#colorBox");
 const paint = document.querySelector("#paletteBox");
+const messageBox = document.querySelector("#message");
+const codeBox = document.querySelector("#code");
 
 const currentColor = block => {
   return window.getComputedStyle(block).backgroundColor;
@@ -25,48 +27,48 @@ const colorArray = colorStr => {
   return c;
 };
 
-const resetMessageStyles =()=>{
-  document.querySelector("#message").classList.remove("perfect");
-  document.querySelector("#message").classList.remove("good");
-  document.querySelector("#message").classList.remove("bad"); 
+const resetMessageStyles = () => {
+  messageBox.classList.remove("perfect");
+  messageBox.classList.remove("good");
+  messageBox.classList.remove("bad");
 };
 
-const getColorType =()=>{
-  const colorEntry = document.querySelector("#code").value;
+const getColorType = () => {
+  const colorEntry = codeBox.value;
   console.log(`giving type for ${colorEntry}`);
-    if (colorEntry.substr(0, 1) == "#") {
+  if (colorEntry.substr(0, 1) == "#") {
     return "hex";
   } else if (colorEntry.substr(0, 4) == "rgba") {
     return "rgba";
-  }else if (colorEntry.substr(0, 3) == "rgb") {
+  } else if (colorEntry.substr(0, 3) == "rgb") {
     return "rgb";
-  }else {
+  } else {
     return "named";
   }
 };
 
-const matchType =(lType, pType)=> {
-  console.log(`Level type = ${lType} and player type = ${pType}`)
-  return (pType == lType);
+const matchType = (lType, pType) => {
+  console.log(`Level type = ${lType} and player type = ${pType}`);
+  return pType == lType;
 };
 
 //todo: Move hard coded thresholds to a difficulty system
 const checkGame = e => {
-  console.log("Checking...")
+  console.log("Checking...");
   const targetColors = colorArray(currentColor(swatch));
   const playerColors = colorArray(currentColor(paint));
-  const levelType = levels[currentLevel].targetType;
+  const levelType = levels[game.currentLevel].targetType;
   const playerType = getColorType();
   const typeMatched = matchType(levelType, playerType);
 
   resetMessageStyles();
 
-  if(!typeMatched){
-    console.log("Mismatch")
-    document.querySelector("#message").textContent = "Sorry, not the right color model.";
-    document.querySelector("#message").classList.add("bad");    
-  }
-  else if (
+  if (!typeMatched) {
+    console.log("Mismatch");
+    messageBox.textContent =
+      "Sorry, not the right color model.";
+    messageBox.classList.add("bad");
+  } else if (
     targetColors.every(
       (v, i) =>
         channelChecker(v, playerColors[i], 0) &&
@@ -74,9 +76,9 @@ const checkGame = e => {
         alphaChecker(targetColors, playerColors, 0)
     )
   ) {
-    console.log("Perfect")
-    document.querySelector("#message").textContent = "PEFECT MATCH!";
-    document.querySelector("#message").classList.add("perfect");
+    console.log("Perfect");
+    messageBox.textContent = "PEFECT MATCH!";
+    messageBox.classList.add("perfect");
   } else if (
     targetColors.every(
       (v, i) =>
@@ -85,13 +87,13 @@ const checkGame = e => {
         alphaChecker(targetColors, playerColors, 0.2)
     )
   ) {
-    console.log("Close")
-    document.querySelector("#message").textContent = "Close. Good job.";
-    document.querySelector("#message").classList.add("good");
+    console.log("Close");
+    messageBox.textContent = "Close. Good job.";
+    messageBox.classList.add("good");
   } else {
-    console.log("Bad color")
-    document.querySelector("#message").textContent = "Sorry, not close enough.";
-    document.querySelector("#message").classList.add("bad");
+    console.log("Bad color");
+    messageBox.textContent = "Sorry, not close enough.";
+    messageBox.classList.add("bad");
   }
 };
 
@@ -118,43 +120,40 @@ const alphaChecker = (v, target, threshold) => {
   }
 };
 
-document.querySelector("#code").onkeypress = e =>{
-   const keyCode = e.keyCode || e.which;
-    if (keyCode == '13'){
-      checkGame();
-    }
-  
-}
-
-document.querySelector("#code").oninput = e => {
-  paint.style.backgroundColor = e.target.value;
- 
+codeBox.onkeypress = e => {
+  const keyCode = e.keyCode || e.which;
+  if (keyCode == "13") {
+    checkGame();
+  }
 };
 
+codeBox.oninput = e => {
+  paint.style.backgroundColor = e.target.value;
+};
 
-
-const changeLevel =(level)=>{
+const changeLevel = level => {
   resetMessageStyles();
   swatch.style.backgroundColor = levels[level].targetColor;
-      document.querySelector("#message").textContent =levels[level].description;
-      document.querySelector("#code").value = '';
+  messageBox.textContent = levels[level].description;
+  codeBox.value = "";
+  game.currentLevel = level;
+  localStorage.setItem("currentLevel", level);
 };
 
 const prevLevel = e => {
-  const prev = (currentLevel - 1 >= 0 ? currentLevel - 1 : 0);
-  changeLevel(prev)
-  currentLevel = prev;
+  const prev = game.currentLevel - 1 >= 0 ? game.currentLevel - 1 : 0;
+  changeLevel(prev);
 };
 
 const nextLevel = e => {
-  const next = (currentLevel + 1 <= maxLevel ? currentLevel + 1 : maxLevel);
-  changeLevel(next)
-  currentLevel = next;
+  const next =
+    game.currentLevel + 1 <= maxLevel ? game.currentLevel + 1 : maxLevel;
+  changeLevel(next);
 };
 
-const getLevel =()=> {
-  return currentLevel;
+const getLevel = () => {
+  return game.currentLevel;
 };
 
 //start game
-changeLevel(0);
+changeLevel(game.currentLevel);
