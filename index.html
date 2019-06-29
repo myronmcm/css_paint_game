@@ -3,13 +3,16 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div class="app">
+    <header role="banner">
+      <h1>CSS PAINT GAME</h1>
+    </header>
+    <main class="app" role="application">
       <div class="container paints">
-        <h1>Target Color:</h1>
+        <h2>Target Color:</h2>
         <div id="colorBox" class="box"></div>
       </div>
       <div class="container paints">
-        <h1>Your Paint:</h1>
+        <h2>Your Paint:</h2>
         <div id="paletteBox" class="box"></div>
       </div>
       <div class="container ">
@@ -35,7 +38,8 @@
         <button onclick="prevLevel();">prev</button>
         <button onclick="nextLevel();">next</button>
       </div>
-    </div>
+    </main>
+    <footer role="contentinfo">Created by Myron McMillin</footer>
   </body>
   <script src="js/levels.js"></script>
   <script src="js/game.js"></script>

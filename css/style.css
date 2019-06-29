@@ -1,7 +1,29 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Code+Pro|Finger+Paint);
 
+:root {
+  /*color palette vars*/
+
+  --dark: rgba(84, 73, 75, 1);
+  --light: rgba(241, 247, 237, 1);
+  --primary:rgb(17, 138, 178);
+  --secondary:rgba(7, 59, 76, 1);
+  --good: rgba(06, 214, 160, 1);
+  --neutral: rgba(255, 209, 102, 1);
+  --bad:  rgba(239, 71, 111, 1);
+
+  --main-bg-color: var(--dark);
+  --button-color: var(--primary);
+  --button-color-hover: rgba(14, 113, 146,1);
+  --button-color-active:var(--primary);
+
+}
+
+
+html,
 body {
-  background-color: rgb(40, 35, 40);
+  background-color: var(--main-bg-color);
+  font-size: calc(10px + 1.25vmin);
+  color: tomato;
 }
 
 .app {
@@ -15,6 +37,12 @@ h1 {
   font-family: "Finger Paint", sans-serif;
   color: rgba(266, 255, 255, 0.8);
 }
+
+h2 {
+  font-family: "Finger Paint", sans-serif;
+  color: rgba(266, 255, 255, 0.8);
+}
+
 .box {
   width: 50px;
   height: 50px;
@@ -54,51 +82,59 @@ p {
   font-weight: 900;
 }
 button {
-  padding: 10px;
+  outline: none;
+  padding: 0.5em;
+  margin: 0.75em;
   border: 0px;
-  color: rgb(35, 25, 35);
-  font-size: 1.5em;
+  color: var(--light);
+  background-color: var(--primary);
+  font-size: 1em;
   text-transform: uppercase;
   font-family: "Finger Paint", sans-serif;
   font-weight: 900;
+  border-radius: 5px;
+  transition: all 0.2s cubic-bezier(0.575, 0, 0.455, 1) 0s;
 }
 button:hover {
-  background-color: rgba(160, 120, 150, 0.75);
-  color: rgb(35, 25, 35);
+  background-color: var(--button-color-hover);
   cursor: pointer;
+}
+
+button:active {
+  background-color: var(--button-color-active);
 }
 
 .container {
   width: 500px;
   display: flex;
   flex-wrap: wrap;
-  margin: 10px;
-  padding: 10px;
+  margin: 0.5em;
+  padding: 0.5em;
   border: solid black 1px;
   background-color: rgba(0, 0, 0, 0.2);
   justify-content: center;
   align-content: space-around;
-}
-.paints {
 }
 
 .codeWindow {
   flex-direction: column;
 }
 
-#message{
-  font-size: 1.25em;
+#message {
+  margin: 0.5em;
+  padding: 0.5em;
+  font-size: 1em;
 }
-.default{
-  color:white;
+.default {
+  color: white;
 }
-.perfect{
+.perfect {
   color: gold;
 }
 
-.good{
+.good {
   color: green;
 }
-.bad{
+.bad {
   color: red;
 }
